@@ -1,24 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:firebase_core/firebase_core.dart';
-
-import 'firebase_options.dart';
 
 import 'controllers/tema_cubit.dart';
 import 'bloc/auto_bloc.dart';
 import 'bloc/auto_estado.dart';
 import 'bloc/auto_evento.dart';
-import 'bloc/paginas/login_google.dart';
+import 'views/login_google.dart';
 import 'models/tema_estado.dart';
-import 'bloc/paginas/home_pagina.dart';
+import 'views/home_pagina.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized(); 
-  
-//FIREBASE
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  WidgetsFlutterBinding.ensureInitialized();
 
   runApp(
     MultiBlocProvider(
@@ -64,24 +56,16 @@ class LoginPage extends StatelessWidget {
             );
           }
         },
-    child: Container(
-  decoration: BoxDecoration(
-    gradient: LinearGradient(
-      begin: Alignment.topCenter,
-      end: Alignment.bottomCenter,
-      colors: Theme.of(context).brightness == Brightness.dark
-          ? [
-              Colors.black,
-              Colors.black87,
-              Colors.black54,
-            ]
-          : [
-              Colors.black,
-              Color(0xFF2B0000),
-              Color(0xFF6A1F1B),
-            ],
-    ),
-  ),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: Theme.of(context).brightness == Brightness.dark
+                  ? [Colors.black, Colors.black87, Colors.black54]
+                  : [Colors.black, Color(0xFF2B0000), Color(0xFF6A1F1B)],
+            ),
+          ),
           child: SafeArea(
             child: SafeArea(
               child: LayoutBuilder(
@@ -104,49 +88,50 @@ class LoginPage extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                           
-
                             //Icon
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-    Row(
-      children: [
-        Icon(
-          Icons.local_pharmacy_outlined,
-          color: Colors.white,
-          size: 28,
-        ),
-        const SizedBox(width: 6),
-        const Text(
-          "UPERFARMA",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 16,
-            fontFamily: 'Poppins',
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ],
-    ),
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.local_pharmacy_outlined,
+                                          color: Colors.white,
+                                          size: 28,
+                                        ),
+                                        const SizedBox(width: 6),
+                                        const Text(
+                                          "UPERFARMA",
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 16,
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
 
-    IconButton(
-      icon: const Icon(
-        Icons.dark_mode,
-        color: Colors.white,
-      ),
-      onPressed: () {
-        context.read<ThemeCubit>().toggleTheme();
-      },
-    ),
-  ],
-),
+                                    IconButton(
+                                      icon: const Icon(
+                                        Icons.dark_mode,
+                                        color: Colors.white,
+                                      ),
+                                      onPressed: () {
+                                        context
+                                            .read<ThemeCubit>()
+                                            .toggleTheme();
+                                      },
+                                    ),
+                                  ],
+                                ),
 
-                    SizedBox(height: 30),
-                       // imagens tela inicio
+                                SizedBox(height: 30),
+                                // imagens tela inicio
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
                                     vertical: 20,
@@ -242,44 +227,51 @@ class LoginPage extends StatelessWidget {
                                 ),
 
                                 // Login
-                           Column(
+                                Column(
                                   children: [
                                     // entrar com Google
-                           ElevatedButton(
-  onPressed: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const LoginGooglePage(),
-      ),
-    );
-  },
-  style: ElevatedButton.styleFrom(
-    backgroundColor: const Color.fromARGB(
-      255,
-      138,
-      42,
-      37,
-    ),
-    foregroundColor: Colors.grey,
-    minimumSize: const Size(double.infinity, 50),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(15),
-    ),
-  ),
-  child: Row(
-    mainAxisAlignment: MainAxisAlignment.center,
-    children: [
-      Image.asset(
-        'assets/Image/google.jpeg',
-        height: 20,
-      ),
-      const SizedBox(width: 10),
-      const Text("Continuar com Google"),
-    ],
-  ),
-),
-                           
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                const LoginGooglePage(),
+                                          ),
+                                        );
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: const Color.fromARGB(
+                                          255,
+                                          138,
+                                          42,
+                                          37,
+                                        ),
+                                        foregroundColor: Colors.grey,
+                                        minimumSize: const Size(
+                                          double.infinity,
+                                          50,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(
+                                            15,
+                                          ),
+                                        ),
+                                      ),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Image.asset(
+                                            'assets/Image/google.jpeg',
+                                            height: 20,
+                                          ),
+                                          const SizedBox(width: 10),
+                                          const Text("Continuar com Google"),
+                                        ],
+                                      ),
+                                    ),
+
                                     //Entrar sem conta
                                     Padding(
                                       padding: const EdgeInsets.only(top: 15),
@@ -322,36 +314,17 @@ class LoginPage extends StatelessWidget {
                                 ),
                               ],
                             ),
-                      ],
+                          ],
                         ),
-                      )
-                  )
+                      ),
+                    ),
                   );
-              
-          
-              }
-            )
-            )
-          )
-    )
-      )
+                },
+              ),
+            ),
+          ),
+        ),
+      ),
     );
+  }
 }
-}                    
-          
-                  
-                  
-          
-    
-                  
-                  
-            
-            
-            
-          
-        
-      
-    
-                
-
-  

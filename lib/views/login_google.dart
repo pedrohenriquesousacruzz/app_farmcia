@@ -39,9 +39,7 @@ class LoginGooglePage extends StatelessWidget {
 
               const Text(
                 "Faça login para continuar",
-                style: TextStyle(
-                  color: Colors.white70,
-                ),
+                style: TextStyle(color: Colors.white70),
               ),
 
               const SizedBox(height: 30),
