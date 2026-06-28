@@ -1,6 +1,7 @@
 import 'package:app_farmacia/views/remedios_pagina.dart';
 import 'package:app_farmacia/bloc/widgets/barra_pesquisa.dart';
 import 'package:app_farmacia/bloc/widgets/cabecalho_home.dart';
+import 'package:app_farmacia/views/vendas_page.dart';
 import 'package:flutter/material.dart';
 import '../bloc/widgets/botao.dart';
 import '../bloc/widgets/produ_populares.dart';
@@ -11,6 +12,19 @@ class HomePagina extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        tooltip: 'Acessar vendas',
+        backgroundColor: const Color(0xFF8A2A25),
+        foregroundColor: Colors.white,
+        child: const Icon(Icons.receipt_long),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => const VendasPage()),
+          );
+        },
+      ),
+
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
