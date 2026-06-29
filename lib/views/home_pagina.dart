@@ -1,10 +1,11 @@
-import 'package:app_farmacia/views/remedios_pagina.dart';
+import 'package:app_farmacia/views/medicamentos_page.dart';
 import 'package:app_farmacia/bloc/widgets/barra_pesquisa.dart';
 import 'package:app_farmacia/bloc/widgets/cabecalho_home.dart';
 import 'package:app_farmacia/views/vendas_page.dart';
 import 'package:flutter/material.dart';
 import '../bloc/widgets/botao.dart';
 import '../bloc/widgets/produ_populares.dart';
+
 
 class HomePagina extends StatelessWidget {
   const HomePagina({super.key});
@@ -58,11 +59,10 @@ class HomePagina extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => const RemediosPagina(
-                                  categoria: "Vitaminas",
+                                builder: (_) => const MedicamentosPage(),
                                 ),
-                              ),
-                            );
+                              );
+                            
                           },
                         ),
 
@@ -72,8 +72,7 @@ class HomePagina extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) =>
-                                    const RemediosPagina(categoria: "Dor"),
+                              builder: (_) => const MedicamentosPage(),
                               ),
                             );
                           },
@@ -85,8 +84,7 @@ class HomePagina extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) =>
-                                    const RemediosPagina(categoria: "Gripe"),
+                                builder: (_)  => const MedicamentosPage(),
                               ),
                             );
                           },
@@ -98,8 +96,7 @@ class HomePagina extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) =>
-                                    const RemediosPagina(categoria: "Infantil"),
+                               builder: (_) => const MedicamentosPage(),
                               ),
                             );
                           },
