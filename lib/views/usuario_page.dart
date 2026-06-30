@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/cliente_service.dart';
-import '../bloc/gradiente.dart';
+import '../utils/gradiente.dart';
 
 class ClientePage extends StatefulWidget {
   const ClientePage({super.key});
@@ -28,10 +28,12 @@ class _ClientePageState extends State<ClientePage> {
     try {
       _cliente = await ClienteService.buscarPrimeiro();
     } catch (_) {
+      if (!mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('Erro ao carregar dados')));
     }
+    if (!mounted) return;
     setState(() => _carregando = false);
   }
 
@@ -49,10 +51,12 @@ class _ClientePageState extends State<ClientePage> {
       _nameController.clear();
       setState(() {});
     } catch (_) {
+      if (!mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('Erro ao salvar')));
     }
+    if (!mounted) return;
     setState(() => _salvando = false);
   }
 
@@ -60,12 +64,14 @@ class _ClientePageState extends State<ClientePage> {
     if (_cliente == null) return;
     try {
       await ClienteService.excluir(_cliente!['id']);
+      if (!mounted) return;
       setState(() {
         _cliente = null;
         _editando = false;
         _nameController.clear();
       });
     } catch (_) {
+      if (!mounted) return;
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(const SnackBar(content: Text('Erro ao excluir')));

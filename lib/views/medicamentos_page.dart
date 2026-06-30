@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/medicamento_service.dart';
-import '../bloc/gradiente.dart';
+import '../utils/gradiente.dart';
 
 class MedicamentosPage extends StatefulWidget {
   const MedicamentosPage({super.key});
@@ -25,12 +25,16 @@ class _MedicamentosPageState extends State<MedicamentosPage> {
     try {
       _medicamentos = await MedicamentoService.listar();
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(e.toString())),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.toString())));
+      }
     }
 
-    setState(() => _carregando = false);
+    if (mounted) {
+      setState(() => _carregando = false);
+    }
   }
 
   void _abrirFormulario({Map<String, dynamic>? medicamento}) {
@@ -58,14 +62,10 @@ class _MedicamentosPageState extends State<MedicamentosPage> {
         child: const Icon(Icons.add),
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: GradienteFarmacia.gradient,
-        ),
+        decoration: const BoxDecoration(gradient: GradienteFarmacia.gradient),
         child: _carregando
             ? const Center(
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                ),
+                child: CircularProgressIndicator(color: Colors.white),
               )
             : ListView.builder(
                 itemCount: _medicamentos.length,
@@ -88,27 +88,18 @@ class _MedicamentosPageState extends State<MedicamentosPage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
-                            icon: const Icon(
-                              Icons.edit,
-                              color: Colors.blue,
-                            ),
+                            icon: const Icon(Icons.edit, color: Colors.blue),
                             onPressed: () {
-                              _abrirFormulario(
-                                medicamento: medicamento,
-                              );
+                              _abrirFormulario(medicamento: medicamento);
                             },
                           ),
                           IconButton(
-                            icon: const Icon(
-                              Icons.delete,
-                              color: Colors.red,
-                            ),
+                            icon: const Icon(Icons.delete, color: Colors.red),
                             onPressed: () async {
                               await MedicamentoService.excluir(
                                 medicamento['id'],
                               );
-
-                              _carregar();
+                              if (mounted) _carregar();
                             },
                           ),
                         ],
@@ -121,22 +112,18 @@ class _MedicamentosPageState extends State<MedicamentosPage> {
     );
   }
 }
+
 class _FormularioMedicamento extends StatefulWidget {
   final Map<String, dynamic>? medicamento;
   final VoidCallback aoSalvar;
 
-  const _FormularioMedicamento({
-    this.medicamento,
-    required this.aoSalvar,
-  });
+  const _FormularioMedicamento({this.medicamento, required this.aoSalvar});
 
   @override
-  State<_FormularioMedicamento> createState() =>
-      _FormularioMedicamentoState();
+  State<_FormularioMedicamento> createState() => _FormularioMedicamentoState();
 }
 
-class _FormularioMedicamentoState
-    extends State<_FormularioMedicamento> {
+class _FormularioMedicamentoState extends State<_FormularioMedicamento> {
   final _formKey = GlobalKey<FormState>();
 
   final _nomeController = TextEditingController();
@@ -150,14 +137,9 @@ class _FormularioMedicamentoState
     super.initState();
 
     if (widget.medicamento != null) {
-      _nomeController.text =
-          widget.medicamento!['nome'] ?? '';
-
-      _precoController.text =
-          widget.medicamento!['preco'].toString();
-
-      _quantidadeController.text =
-          widget.medicamento!['quantidade'].toString();
+      _nomeController.text = widget.medicamento!['nome'] ?? '';
+      _precoController.text = widget.medicamento!['preco'].toString();
+      _quantidadeController.text = widget.medicamento!['quantidade'].toString();
     }
   }
 
@@ -198,11 +180,11 @@ class _FormularioMedicamentoState
         Navigator.pop(context);
       }
     } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(e.toString()),
-        ),
-      );
+      if (mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text(e.toString())));
+      }
     }
 
     if (mounted) {
@@ -224,9 +206,7 @@ class _FormularioMedicamentoState
         backgroundColor: const Color(0xFF8A2A25),
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: GradienteFarmacia.gradient,
-        ),
+        decoration: const BoxDecoration(gradient: GradienteFarmacia.gradient),
         padding: const EdgeInsets.all(20),
         child: Form(
           key: _formKey,
@@ -239,7 +219,6 @@ class _FormularioMedicamentoState
                   labelStyle: TextStyle(color: Colors.white),
                 ),
                 style: const TextStyle(color: Colors.white),
-                
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Informe o nome";
@@ -256,7 +235,6 @@ class _FormularioMedicamentoState
                   labelStyle: TextStyle(color: Colors.white),
                 ),
                 style: const TextStyle(color: Colors.white),
-                
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Informe o preço";
@@ -270,10 +248,9 @@ class _FormularioMedicamentoState
                 keyboardType: TextInputType.number,
                 decoration: const InputDecoration(
                   labelText: "Quantidade",
-                labelStyle: TextStyle(color: Colors.white),
+                  labelStyle: TextStyle(color: Colors.white),
                 ),
                 style: const TextStyle(color: Colors.white),
-                
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Informe a quantidade";
@@ -285,29 +262,20 @@ class _FormularioMedicamentoState
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   backgroundColor: const Color(0xFF8A2A25),
-                  minimumSize: const Size(
-                    double.infinity,
-                    50,
-                  ),
+                  minimumSize: const Size(double.infinity, 50),
                 ),
                 onPressed: _salvando ? null : _salvar,
                 child: _salvando
-                    ? const CircularProgressIndicator(
-                        color: Colors.white,
-                      )
+                    ? const CircularProgressIndicator(color: Colors.white)
                     : const Text(
                         "Salvar",
-                        style: TextStyle(
-                          color: Colors.white,
-                        ),
+                        style: TextStyle(color: Colors.white),
                       ),
               ),
-        ],
+            ],
           ),
         ),
-    )
+      ),
     );
-      
-    
   }
 }

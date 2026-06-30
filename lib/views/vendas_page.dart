@@ -1,4 +1,4 @@
-import 'package:app_farmacia/bloc/gradiente.dart';
+import 'package:app_farmacia/utils/gradiente.dart';
 import 'package:flutter/material.dart';
 import '../services/venda_service.dart';
 
