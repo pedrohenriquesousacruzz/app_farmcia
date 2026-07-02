@@ -23,6 +23,7 @@ class _ClientePageState extends State<ClientePage> {
     _verificarCliente();
   }
 
+  //busca primeiro cliente
   Future<void> _verificarCliente() async {
     setState(() => _carregando = true);
     try {
@@ -37,6 +38,7 @@ class _ClientePageState extends State<ClientePage> {
     setState(() => _carregando = false);
   }
 
+  //cria ou atualiza cliente conforme modo edicao
   Future<void> _criarOuAtualizar() async {
     if (!_formKey.currentState!.validate()) return;
     setState(() => _salvando = true);
@@ -60,6 +62,7 @@ class _ClientePageState extends State<ClientePage> {
     setState(() => _salvando = false);
   }
 
+  //remove cliente e limpa estado
   Future<void> _excluir() async {
     if (_cliente == null) return;
     try {
@@ -78,6 +81,7 @@ class _ClientePageState extends State<ClientePage> {
     }
   }
 
+  //preenche campo com nome atual e ativa edicao
   void _habilitarEdicao() {
     if (_cliente != null) {
       _nameController.text = _cliente!['name'] ?? '';
@@ -102,6 +106,7 @@ class _ClientePageState extends State<ClientePage> {
     );
   }
 
+  //formulario de nome
   Widget _buildFormulario() {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
@@ -124,26 +129,29 @@ class _ClientePageState extends State<ClientePage> {
               ),
               validator: (v) => v!.isEmpty ? 'Informe o nome' : null,
             ),
-            const SizedBox(height: 30),
-            _salvando
-                ? const CircularProgressIndicator(color: Colors.white)
-                : ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 50),
-                      backgroundColor: const Color(0xFF8A2A25),
+            Padding(
+              padding: const EdgeInsets.only(top: 30),
+              child: _salvando
+                  ? const CircularProgressIndicator(color: Colors.white)
+                  : ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(double.infinity, 50),
+                        backgroundColor: const Color(0xFF8A2A25),
+                      ),
+                      onPressed: _criarOuAtualizar,
+                      child: Text(
+                        _editando ? 'Atualizar' : 'Criar',
+                        style: const TextStyle(color: Colors.white),
+                      ),
                     ),
-                    onPressed: _criarOuAtualizar,
-                    child: Text(
-                      _editando ? 'Atualizar' : 'Criar',
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                  ),
+            ),
           ],
         ),
       ),
     );
   }
 
+  //exibicao dos dados do cliente encontrado
   Widget _buildDadosCliente() {
     return Center(
       child: Padding(
@@ -152,42 +160,50 @@ class _ClientePageState extends State<ClientePage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const CircleAvatar(radius: 50, child: Icon(Icons.person, size: 50)),
-            const SizedBox(height: 20),
-            Text(
-              _cliente!['name'] ?? 'Sem nome',
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+            Padding(
+              padding: const EdgeInsets.only(top: 20),
+              child: Text(
+                _cliente!['name'] ?? 'Sem nome',
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Cliente #${_cliente!['id']}',
-              style: const TextStyle(color: Colors.white70),
+            Padding(
+              padding: const EdgeInsets.only(top: 8),
+              child: Text(
+                'Cliente #${_cliente!['id']}',
+                style: const TextStyle(color: Colors.white70),
+              ),
             ),
-            const SizedBox(height: 30),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton.icon(
-                  icon: const Icon(Icons.edit),
-                  label: const Text('Editar'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF8A2A25),
+            Padding(
+              padding: const EdgeInsets.only(top: 30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton.icon(
+                    icon: const Icon(Icons.edit),
+                    label: const Text('Editar'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF8A2A25),
+                    ),
+                    onPressed: _habilitarEdicao,
                   ),
-                  onPressed: _habilitarEdicao,
-                ),
-                const SizedBox(width: 16),
-                ElevatedButton.icon(
-                  icon: const Icon(Icons.delete),
-                  label: const Text('Excluir'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red[800],
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16),
+                    child: ElevatedButton.icon(
+                      icon: const Icon(Icons.delete),
+                      label: const Text('Excluir'),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red[800],
+                      ),
+                      onPressed: _excluir,
+                    ),
                   ),
-                  onPressed: _excluir,
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

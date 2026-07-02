@@ -18,13 +18,13 @@ Future<void> main() async {
         BlocProvider(create: (_) => ThemeCubit()),
         BlocProvider(create: (_) => AutoBloc()),
       ],
-      child: myapp(),
+      child: Myapp(),
     ),
   );
 }
 
-class myapp extends StatelessWidget {
-  const myapp({super.key});
+class Myapp extends StatelessWidget {
+  const Myapp({super.key});
 
   @override
   Widget build(BuildContext context) {
